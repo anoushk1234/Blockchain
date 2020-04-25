@@ -21,10 +21,14 @@ class Blockchain(Block):
         return self.chain[len(self.chain)-1]
     
     def valid(self):
-        if self.latestblock().hash==self.chain[len(self.chain)-2].hash:
-            print(str(self.chain[len(self.chain)-2].index)+" is secure")
-        else:
-            print("insecure")
+        print("Bkno\t\t\tsecurity")
+        for item in reversed(range(1,len(self.chain))):
+         if self.chain[item].prevhash==self.chain[item-1].hash:
+            print("%f:\t\t\t%s" % (self.chain[item].index," is secure"))
+           # print("Block no:"+str(self.chain[item].index)+" is secure")
+         else:
+            print("%s:\t\t\t%f" % (self.chain[item].index," insecure"))
+        print("---------------------------------------------------------------")
 
     def newblock(self,blk):
         blk.prevhash=self.latestblock().hash
@@ -33,6 +37,9 @@ class Blockchain(Block):
 
 chn=Blockchain()
 chn.newblock(Block(1,chn.latestblock().hash,datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),{"amt":"500"}))
+print("Block No\t\t\tprevhash\t\thash\t\tDate & Time\t\tData")
 for item in chn.chain:
-    print("Block number:"+str(item.index)+"\nPrevious hash:"+str(item.prevhash)+"\nHash:"+str(item.hash)+"\nDate & Time:"+str(item.time)+"\nData:"+str(item.data))
-    print(item.valid())
+    print("%f:\t\t\t%s\t\t%s\t\t%s\t\t%s" % (item.index,item.prevhash,item.hash,item.time,item.data))
+    # print("Block number000:"+str(item.index)+"\nPrevious hash:"+str(item.prevhash)+"\nHash:"+str(item.hash)+"\nDate & Time:"+str(item.time)+"\nData:"+str(item.data))
+print("---------------------------------------------------------------")
+print(chn.valid())
